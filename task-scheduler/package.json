@@ -1,0 +1,14 @@
+{
+    "name": "equiv-task-scheduler",
+    "version": "1.0.10",
+    "main": "TaskSchedulingDriver.js",
+    "description": "任务调度",
+    "keywords": [
+        "TaskScheduler",
+        "EquivNode",
+        "Task",
+        "unite",
+        "find"
+    ],
+    "license": "ISC"
+}
