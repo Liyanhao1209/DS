@@ -8,66 +8,6 @@ npm install equiv-task-scheduler
 const TaskScheduler = require('equiv-task-scheduler')
 ```
 
-### 对单位时间任务列表做调度
-```js
-/**
- * JsonTasks为任务列表
- * 每个任务有三个成员变量:name,start,end
- * 分别对应任务名,开始时间,结束时间
- */
-const result = TaskScheduler.genResult(JsonTasks)
-/**
- * result[1:n]是返回的调度后的任务列表
- * result[0]弃用
- */
-console.log(result)
-```
-
-### 对非单位时间任务列表做调度
-```js
-/**
- * MultiJsonTasks为任务列表
- * 每个任务有四个成员变量:name,start,end,exeTime
- * 分别对应任务名,开始时间,结束时间,任务执行需要的时间
- */
-const MultiResult = TaskScheduler.genMultiResult(MultiJsonTasks)
-/**
- * MultiResult[1:n]是返回的调度后的任务列表
- * MultiResult[0]弃用
- */
-console.log(MultiResult)
-```
-
-### 对单位时间有优先级的任务列表做调度
-```js
-/**
- * WJsonTasks为任务列表
- * 每个任务有五个成员变量:name,start,end,exeTime=unitTime=1,weight
- * 分别对应任务名,开始时间,结束时间,任务执行需要的时间(应设置为1),优先级
- */
-const WResult =TaskScheduler.genWeightedResult(WJsonTasks)
-/**
- * WResult[1:n]是返回的调度后的任务列表
- * WResult[0]弃用
- */
-console.log(WResult)
-```
-
-### 对任意时间有优先级的任务列表做调度
-```js
-/**
- * WMJsonTasks为任务列表
- * 每个任务有五个成员变量:name,start,end,exeTime,weight
- * 分别对应任务名,开始时间,结束时间,任务执行需要的时间,优先级
- */
-const WMResult =TaskScheduler.genWMResult(WMJsonTasks)
-/**
- * WMResult[1:n]是返回的调度后的任务列表
- * WMResult[0]弃用
- */
-console.log(WMResult)
-```
-
 ### 对任意时间有优先级任务列表的调度(优先级高的尽可能的靠前)
 ```js
 /**
@@ -94,4 +34,5 @@ npm uninstall TaskScheduling
 ```
 
 ### 即将上线
-    1.并行时间最优方案
+    1.分段时间下的调度方案(如开始结束为 2:00-4:00和9:00-12:00 )
+    2.并行时间最优方案

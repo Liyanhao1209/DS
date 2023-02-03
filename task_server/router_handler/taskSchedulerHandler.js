@@ -26,97 +26,19 @@ function resSendResult(result,res){
     {
         name:'A',
         start:0,
-        end:24
+        end:24,
+        exeTime:1,
+        weight:1
     }
     ,
     ...
  ]
  */
-exports.genResult = (req,res)=>{
-    //获取Json任务数组
-    const JsonTasks = req.body
-    // var tasks = JSON.parse(JsonTasks.JsonTasks)
-    var tasks = JSON.parse(JsonTasks.data)
-    // console.log(tasks);
-    const result = TaskScheduler.genResult(tasks)
-    resSendResult(result,res)
-}
-
-
-/**
- * MultiJsonTasks:
-[
-  {
-    name:'A',
-    start:0,
-    end:24,
-    exeTime:2
-  },
-  ...
-]
- */
-exports.genMultiResult = (req,res)=>{
-    const MultiJsonTasks = req.body
-    var tasks = JSON.parse(MultiJsonTasks.data)
-    const MultiResult = TaskScheduler.genMultiResult(tasks)
-    resSendResult(MultiResult,res)
-}
-
-/**
- * [
- * {
- * name:'A',
- * start:0,
- * end:24,
- * exeTime:1,
- * weight:5
- * },
- * ...
- * ]
- */
-exports.genWeightedResult = (req,res)=>{
-    const WJsonTasks = req.body
-    var tasks = JSON.parse(WJsonTasks.data)
-    const WResult = TaskScheduler.genWeightedResult(tasks)
-    resSendResult(WResult,res)
-}
-
-/**
- * [
- * {
- * name:'A',
- * start:0,
- * end:24,
- * exeTime:2,
- * weight:3
- * },
- * ...
- * ]
- */
-exports.genWMResult = (req,res)=>{
-    const WMJsonTasks = req.body
-    var tasks = JSON.parse(WMJsonTasks.data)
-    const WMResult = TaskScheduler.genWMResult(WMJsonTasks)
-    resSendResult(WMResult,res)
-}
-
-/**
- * [
- * {
- * name:'A',
- * start:0,
- * end:24,
- * exeTime:2,
- * weight:3
- * },
- * ...
- * ]
- */
 exports.genWMResultVeryFirst = (req,res)=>{
     const WMJsonTasks = req.body
-    console.log(WMJsonTasks);
+    // console.log(WMJsonTasks);
     var tasks = JSON.parse(WMJsonTasks.data)
-    console.log(tasks);
+    // console.log(tasks);
     const WMResult = TaskScheduler.genWMResultVeryFirst(tasks)
     resSendResult(WMResult,res)
 }

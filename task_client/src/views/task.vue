@@ -85,7 +85,7 @@
       </el-select> 
     </el-form-item>
     <el-form-item label="优先级">
-        <el-select v-model="form.exeTime" placeholder="选择结束时间(默认1)">
+        <el-select v-model="form.weight" placeholder="选择优先级(默认1)">
           <el-option v-for="(weight,index) in 5" :label="weight+'级'" :value="weight" />
         </el-select> 
       </el-form-item>
@@ -172,20 +172,20 @@
                 <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
                     <el-tab-pane label="单位时间无优先级" name="first">
                         <el-button type="warning" @click="this.dialogfirstVisible=true">新增任务</el-button>
-                        <el-button type="primary" @click="sendTasks(1)">提交任务</el-button>
+                        <el-button type="primary" @click="sendTasks()">提交任务</el-button>
                         
                     </el-tab-pane>
                     <el-tab-pane label="任意时间无优先级" name="second">
                         <el-button type="warning" @click="this.dialogsecondVisible=true">新增任务</el-button>
-                        <el-button type="primary" @click="sendTasks(2)">提交任务</el-button>
+                        <el-button type="primary" @click="sendTasks()">提交任务</el-button>
                     </el-tab-pane>
                     <el-tab-pane label="单位时间有优先级" name="third">
                         <el-button type="warning" @click="this.dialogthirdVisible=true">新增任务</el-button>
-                        <el-button type="primary" @click="sendTasks(3)">提交任务</el-button>
+                        <el-button type="primary" @click="sendTasks()">提交任务</el-button>
                     </el-tab-pane>
                     <el-tab-pane label="任意时间有优先级" name="fourth">
                         <el-button type="warning" @click="this.dialogfourthVisible=true">新增任务</el-button>
-                        <el-button type="primary" @click="sendTasks(4)">提交任务</el-button>
+                        <el-button type="primary" @click="sendTasks()">提交任务</el-button>
                     </el-tab-pane>
                   </el-tabs>
             </div>
@@ -297,92 +297,26 @@ export default {
     },
     methods: {
         //根据mark发对应接口
-        sendTasks(mark){
-            if(mark===1){
-                //promise对象用then取数据
-                genResult(this.tasks).then(
-                    (res)=>{
-                      if(res.status===0){
-                          let result = res.data
-                        result=this.preProcessResult(result)
-                        result=this.addExe(result)
-                        result=this.addWeight(result)
-                        this.result=result
-                        this.resultVisible=true
-                        }
-                        else if(res.status===1){
-                          this.$message(
-                            {
-                              message:res.message,
-                              type:'error'
-                            }
-                          )
-                        }
+        sendTasks(){
+            genWMResultVeryFirst(this.tasks).then(
+              (res)=>{
+                if(res.status===0){
+                  let result = res.data
+                  result=this.preProcessResult(result)
+                  this.result=result
+                  this.resultVisible=true
+                }
+                else if(res.status===1){
+                  this.$message(
+                    {
+                      message:res.message,
+                      type:'error'
                     }
-                )
-            }
-            else if(mark===2){
-                genMultiResult(this.tasks).then(
-                    (res)=>{
-                      if(res.status===0){
-                          let result = res.data
-                        result=this.preProcessResult(result)
-                        result=this.addWeight(result)
-                        this.result=result
-                        this.resultVisible=true
-                        }
-                        else if(res.status===1){
-                          this.$message(
-                            {
-                              message:res.message,
-                              type:'error'
-                            }
-                          )
-                        }
-                    }
-                )
-            }
-            else if(mark===3){
-                genWeightedResult(this.tasks).then(
-                    (res)=>{
-                      if(res.status===0){
-                          let result = res.data
-                        result=this.preProcessResult(result)
-                        result=this.addExe(result)
-                        this.result=result
-                        this.resultVisible=true
-                        }
-                        else if(res.status===1){
-                          this.$message(
-                            {
-                              message:res.message,
-                              type:'error'
-                            }
-                          )
-                        }
-                    }
-                )
-            }
-            else if(mark===4){
-                genWMResultVeryFirst(this.tasks).then(
-                    (res)=>{
-                        if(res.status===0){
-                          let result = res.data
-                        result=this.preProcessResult(result)
-                        this.result=result
-                        this.resultVisible=true
-                        }
-                        else if(res.status===1){
-                          this.$message(
-                            {
-                              message:res.message,
-                              type:'error'
-                            }
-                          )
-                        }
-                    }
-                )
-            }
+                  )
+                }
+              }
+            )
+            
         },
         addTask(){
             if(this.form.end<=this.form.start){

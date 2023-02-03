@@ -1,6 +1,6 @@
 {
     "name": "equiv-task-scheduler",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "main": "TaskSchedulingDriver.js",
     "description": "任务调度",
     "keywords": [

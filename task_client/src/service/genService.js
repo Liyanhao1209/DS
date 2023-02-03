@@ -22,17 +22,6 @@ function genRequest(url,data) {
     })
 }
 
-function genResult(data){
-    return genRequest('/api/task/genResult',data)
-}
-
-function genMultiResult(data){
-    return genRequest('/api/task/genMultiResult',data)
-}
-
-function genWeightedResult(data){
-    return genRequest('/api/task/genWeightedResult',data)
-}
 
 function genWMResultVeryFirst(data){
     return genRequest('/api/task//genWMResultVeryFirst',data)
@@ -40,8 +29,5 @@ function genWMResultVeryFirst(data){
 
 export 
 {
-    genResult,
-    genMultiResult,
-    genWeightedResult,
     genWMResultVeryFirst
 }
