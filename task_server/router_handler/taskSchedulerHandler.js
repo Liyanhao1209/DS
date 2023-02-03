@@ -40,5 +40,6 @@ exports.genWMResultVeryFirst = (req,res)=>{
     var tasks = JSON.parse(WMJsonTasks.data)
     // console.log(tasks);
     const WMResult = TaskScheduler.genWMResultVeryFirst(tasks)
+    console.log(WMResult);
     resSendResult(WMResult,res)
 }

@@ -300,6 +300,7 @@ export default {
         sendTasks(){
             genWMResultVeryFirst(this.tasks).then(
               (res)=>{
+                // console.log(res);
                 if(res.status===0){
                   let result = res.data
                   result=this.preProcessResult(result)

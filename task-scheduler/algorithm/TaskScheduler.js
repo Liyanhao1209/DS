@@ -19,6 +19,10 @@ function genWMResultVeryFirst(WMJsonTasks){
     Nodes = getNodes()
     //生成初次调度结果
     WMResult = getResult(WMResult,Nodes,WMTasks)
+    //无调度结果
+    if(WMResult===null){
+        return WMResult
+    }
     //调整至优先级最优
     WMResult = adjustByPriority(WMResult)
     return WMResult
