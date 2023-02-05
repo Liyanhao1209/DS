@@ -4,18 +4,50 @@
     title="新增任务"
     width="30%"
   >
+
   <el-form :model="form" label-width="120px">
     <el-form-item label="任务名称">
       <el-input v-model="form.name" />
     </el-form-item>
-    <el-form-item label="开始时间">
-      <el-select v-model="form.start" placeholder="选择开始时间">
+    
+    <el-form-item 
+    v-for="(start,index) in starts"
+    :label="'开始时间'+index"
+    :key="start.key"
+    :prop="'starts.'+index+'.value'"
+    >
+    <!-- v-model不能直接修改数组元素的别名 -->
+      <el-select v-model="start.value" placeholder="选择开始时间">
         <el-option v-for="(time,index) in 24" :label="index+':00'" :value="index" />
       </el-select> 
+      <el-button @click.prevent="removeStart(start)">删除</el-button>
     </el-form-item>
-    <el-form-item label="结束时间">
-        <el-select v-model="form.end" placeholder="选择结束时间">
+    <el-form-item>
+      <el-button @click="addStart">新增开始时间</el-button>
+    </el-form-item>
+
+    <el-form-item 
+    v-for="(end,index) in ends"
+    :label="'结束时间'+index"
+    :key="end.key"
+    :prop="'ends.'+index+'.value'"
+    >
+        <el-select v-model="end.value" placeholder="选择结束时间">
           <el-option v-for="(time,index) in 24" :label="time+':00'" :value="time" />
+        </el-select> 
+        <el-button @click.prevent="removeEnd(end)">删除</el-button>
+      </el-form-item>
+      <el-form-item>
+      <el-button @click="addEnd">新增结束时间</el-button>
+    </el-form-item>
+    <el-form-item label="执行时间">
+        <el-select v-model="form.exeTime" placeholder="选择结束时间(默认1)">
+          <el-option v-for="(time,index) in 24" :label="time+'小时'" :value="time" />
+        </el-select> 
+      </el-form-item>
+    <el-form-item label="优先级">
+        <el-select v-model="form.weight" placeholder="选择结束时间(默认1)">
+          <el-option v-for="(weight,index) in 5" :label="weight+'级'" :value="weight" />
         </el-select> 
       </el-form-item>
   </el-form>
@@ -28,120 +60,6 @@
       </span>
     </template>
   </el-dialog>
-
-  <el-dialog
-  v-model="dialogsecondVisible"
-  title="新增任务"
-  width="30%"
->
-<el-form :model="form" label-width="120px">
-  <el-form-item label="任务名称">
-    <el-input v-model="form.name" />
-  </el-form-item>
-  <el-form-item label="开始时间">
-    <el-select v-model="form.start" placeholder="选择开始时间">
-      <el-option v-for="(time,index) in 24" :label="index+':00'" :value="index" />
-    </el-select> 
-  </el-form-item>
-  <el-form-item label="结束时间">
-      <el-select v-model="form.end" placeholder="选择结束时间">
-        <el-option v-for="(time,index) in 24" :label="time+':00'" :value="time" />
-      </el-select> 
-    </el-form-item>
-    <el-form-item label="执行时间">
-        <el-select v-model="form.exeTime" placeholder="选择结束时间(默认1)">
-          <el-option v-for="(time,index) in 24" :label="time+'小时'" :value="time" />
-        </el-select> 
-      </el-form-item>
-</el-form>
-
-  <template #footer>
-    <span class="dialog-footer">
-      <el-button @click="dialogfirstVisible = false">取消</el-button>
-      <el-button type="primary" @click="addTask">
-        新增
-      </el-button>
-    </span>
-  </template>
-</el-dialog>
-
-  <el-dialog
-  v-model="dialogthirdVisible"
-  title="新增任务"
-  width="30%"
->
-<el-form :model="form" label-width="120px">
-  <el-form-item label="任务名称">
-    <el-input v-model="form.name" />
-  </el-form-item>
-  <el-form-item label="开始时间">
-    <el-select v-model="form.start" placeholder="选择开始时间">
-      <el-option v-for="(time,index) in 24" :label="index+':00'" :value="index" />
-    </el-select> 
-  </el-form-item>
-  <el-form-item label="结束时间">
-      <el-select v-model="form.end" placeholder="选择结束时间">
-        <el-option v-for="(time,index) in 24" :label="time+':00'" :value="time" />
-      </el-select> 
-    </el-form-item>
-    <el-form-item label="优先级">
-        <el-select v-model="form.weight" placeholder="选择优先级(默认1)">
-          <el-option v-for="(weight,index) in 5" :label="weight+'级'" :value="weight" />
-        </el-select> 
-      </el-form-item>
-</el-form>
-
-  <template #footer>
-    <span class="dialog-footer">
-      <el-button @click="dialogfirstVisible = false">取消</el-button>
-      <el-button type="primary" @click="addTask">
-        新增
-      </el-button>
-    </span>
-  </template>
-</el-dialog>
-
-  <el-dialog
-  v-model="dialogfourthVisible"
-  title="新增任务"
-  width="30%"
->
-<el-form :model="form" label-width="120px">
-  <el-form-item label="任务名称">
-    <el-input v-model="form.name" />
-  </el-form-item>
-  <el-form-item label="开始时间">
-    <el-select v-model="form.start" placeholder="选择开始时间">
-      <el-option v-for="(time,index) in 24" :label="index+':00'" :value="index" />
-    </el-select> 
-  </el-form-item>
-  <el-form-item label="结束时间">
-      <el-select v-model="form.end" placeholder="选择结束时间">
-        <el-option v-for="(time,index) in 24" :label="time+':00'" :value="time" />
-      </el-select> 
-    </el-form-item>
-    <el-form-item label="执行时间">
-        <el-select v-model="form.exeTime" placeholder="选择结束时间(默认1)">
-          <el-option v-for="(time,index) in 24" :label="time+'小时'" :value="time" />
-        </el-select> 
-      </el-form-item>
-    <el-form-item label="优先级">
-        <el-select v-model="form.weight" placeholder="选择结束时间(默认1)">
-          <el-option v-for="(weight,index) in 5" :label="weight+'级'" :value="weight" />
-        </el-select> 
-      </el-form-item>
-
-</el-form>
-
-  <template #footer>
-    <span class="dialog-footer">
-      <el-button @click="dialogfirstVisible = false">取消</el-button>
-      <el-button type="primary" @click="addTask">
-        新增
-      </el-button>
-    </span>
-  </template>
-</el-dialog>
 
     <el-dialog
     v-model="resultVisible"
@@ -169,23 +87,15 @@
     <div class="wrapper">
         <div class="roughGlassWrapper">
             <div class="roughGlass">
-                <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-                    <el-tab-pane label="单位时间无优先级" name="first">
-                        <el-button type="warning" @click="this.dialogfirstVisible=true">新增任务</el-button>
-                        <el-button type="primary" @click="sendTasks()">提交任务</el-button>
-                        
+                <el-tabs  class="demo-tabs" >
+                    <el-tab-pane label="操作区域">
+                      <el-button type="warning" @click="this.dialogfirstVisible=true">新增任务</el-button>
+                      <el-button type="primary" @click="sendTasks()">提交任务</el-button>
                     </el-tab-pane>
-                    <el-tab-pane label="任意时间无优先级" name="second">
-                        <el-button type="warning" @click="this.dialogsecondVisible=true">新增任务</el-button>
-                        <el-button type="primary" @click="sendTasks()">提交任务</el-button>
-                    </el-tab-pane>
-                    <el-tab-pane label="单位时间有优先级" name="third">
-                        <el-button type="warning" @click="this.dialogthirdVisible=true">新增任务</el-button>
-                        <el-button type="primary" @click="sendTasks()">提交任务</el-button>
-                    </el-tab-pane>
-                    <el-tab-pane label="任意时间有优先级" name="fourth">
-                        <el-button type="warning" @click="this.dialogfourthVisible=true">新增任务</el-button>
-                        <el-button type="primary" @click="sendTasks()">提交任务</el-button>
+                    <el-tab-pane label="退出登录">
+                      <el-button type="danger" @click="logOut()">
+                        退出登录
+                      </el-button>
                     </el-tab-pane>
                   </el-tabs>
             </div>
@@ -200,8 +110,8 @@
                                 <span class="index">{{index+1}}.</span>
                                 <label>
                                     任务名:{{task.name}}
-                                    开始:{{ task.start+':00' }}
-                                    结束:{{ task.end+':00' }}
+                                    开始:{{ arrToString(task.start) }}
+                                    结束:{{ arrToString(task.end) }}
                                     执行时间:{{ task.exeTime+'h' }}
                                     优先级:{{ task.weight }}
                                 </label>
@@ -226,10 +136,23 @@
 
 <script>
 import {radixSortTasks} from '../util/sortUtil'
-import {genResult,genMultiResult,genWeightedResult,genWMResultVeryFirst} from '../service/genService'
+import {genWMResultVeryFirst} from '../service/genService'
+import {minHeap} from '../util/Entity/minHeap'
 export default {
     data() {
         return {
+            startHeap:null,
+            endHeap:null,
+            starts:[
+              {
+                value:null
+              }
+            ],
+            ends:[
+              {
+                value:null
+              }
+            ],
             form:{
                 name:'',
                 start:null,
@@ -238,54 +161,95 @@ export default {
                 weight:1
             },
             dialogfirstVisible:false,
-            dialogsecondVisible:false,
-            dialogthirdVisible:false,
-            dialogfourthVisible:false,
             resultVisible:false,
-            tasks:
-            [
-              {
-        name:'天黑之前把算法模块写好,并做测试',
-        start:2,
-        end:12,
-        exeTime:3,
-        weight:5
-    },
-    {
-        name:'B',
-        start:3,
-        end:21,
-        exeTime:1,
-        weight:5
-    },
-    {
-        name:'C',
-        start:13,
-        end:16,
-        exeTime:3,
-        weight:2
-    },
-    {
-        name:'D',
-        start:18,
-        end:20,
-        exeTime:1,
-        weight:4
-    },
-    {
-        name:'E',
-        start:16,
-        end:23,
-        exeTime:2,
-        weight:5
-    },
-    {
-        name:'F',
-        start:18,
-        end:22,
-        exeTime:1,
-        weight:3
-    }
+    tasks:
+    [
+    // {
+    //     name:'A',
+    //     start:[null,2,13],
+    //     end:[null,6,16],
+    //     exeTime:3,
+    //     weight:1 
+    // },
+    // {
+    //     name:'B',
+    //     start:[null,13,19],
+    //     end:[null,17,24],
+    //     exeTime:2,
+    //     weight:4 
+    // },
+    // {
+    //     name:'C',
+    //     start:[null,5,14],
+    //     end:[null,8,16],
+    //     exeTime:4,
+    //     weight:5 
+    // },
+    // {
+    //     name:'D',
+    //     start:[null,9,18],
+    //     end:[null,15,20],
+    //     exeTime:3,
+    //     weight:5 
+    // },
+    // {
+    //     name:'E',
+    //     start:[null,10,17],
+    //     end:[null,12,19],
+    //     exeTime:1,
+    //     weight:4 
+    // },
+    // {
+    //     name:'F',
+    //     start:[null,4,20],
+    //     end:[null,8,24],
+    //     exeTime:1,
+    //     weight:1 
+    // }
+
+    // {
+    //     name:'A',
+    //     start:[null,2],
+    //     end:[null,12],
+    //     exeTime:3,
+    //     weight:5
+    // },
+    // {
+    //     name:'B',
+    //     start:[null,3],
+    //     end:[null,21],
+    //     exeTime:1,
+    //     weight:5
+    // },
+    // {
+    //     name:'C',
+    //     start:[null,13],
+    //     end:[null,16],
+    //     exeTime:3,
+    //     weight:2
+    // },
+    // {
+    //     name:'D',
+    //     start:[null,18],
+    //     end:[null,20],
+    //     exeTime:1,
+    //     weight:4
+    // },
+    // {
+    //     name:'E',
+    //     start:[null,16],
+    //     end:[null,23],
+    //     exeTime:2,
+    //     weight:5
+    // },
+    // {
+    //     name:'F',
+    //     start:[null,18],
+    //     end:[null,22],
+    //     exeTime:1,
+    //     weight:3
+    // }
+
             ],
 
         result:[
@@ -296,8 +260,43 @@ export default {
     mounted() {
     },
     methods: {
-        //根据mark发对应接口
-        sendTasks(){
+      //给时间数组的转换字符串函数
+      arrToString(arr){
+        var str=''
+        for(let i=1;i<arr.length;i++){
+          str+=arr[i]+':00'+' '
+        }
+        return str
+      },
+      removeEnd(end){
+        var index = this.ends.indexOf(end)
+        if(end!== -1){
+          this.ends.splice(index,1)
+        }
+      },
+      addEnd(){
+        this.ends.push(
+          {
+            value:null,
+            key: Date.now()
+          }
+        )
+      },
+      removeStart(start){
+        var index = this.starts.indexOf(start)
+        if(start!== -1){
+          this.starts.splice(index,1)
+        }
+      },
+      addStart(){
+        this.starts.push(
+          {
+            value:null,
+            key: Date.now()
+          }
+        )
+      },
+      sendTasks(){
             genWMResultVeryFirst(this.tasks).then(
               (res)=>{
                 // console.log(res);
@@ -318,26 +317,52 @@ export default {
               }
             )
             
-        },
+      },
+      //用堆来维护输入
+      timeDivision(){
+        this.startHeap=new minHeap()
+        this.endHeap = new minHeap()
+        for(let i=0;i<this.starts.length;i++){
+          console.log(i);
+          //先把开始时间放入开始堆
+          if(i===0){
+            this.startHeap.push(this.starts[i].value)
+          }
+          else{
+            //多个时段不允许有交集
+            if(this.starts[i].value<this.endHeap.top()&&this.ends[i].value>this.startHeap.top()){
+              return false
+            }
+            else{
+              this.startHeap.push(this.starts[i].value)
+            }
+          }
+          //再把结束时间放入结束堆
+          //结束时间要比开始时间晚
+          if(this.ends[i].value<=this.startHeap.top()){
+            return false
+          }
+          else{
+            this.endHeap.push(this.ends[i].value)
+          }
+        }
+        return true
+      },
         addTask(){
-            if(this.form.end<=this.form.start){
-                this.$message(
-                    {
-                        message:'结束时间必须大于开始时间!',
-                        type:'error'
-                    }
-                )
-                return
-            }
-            else if(this.form.name===''||this.form.start===null||this.form.end===null){
-                this.$message(
-                    {
-                        message:'每一项均为必填项',
-                        type:'error'
-                    }
-                )
-                return
-            }
+          if(!this.timeDivision()){
+            console.log(this.startHeap);
+            console.log(this.endHeap);
+            this.$message(
+              {
+                message:'请检查输入，多个时段不允许相交，且每个时段的结束时间应大于开始时间',
+                type:'error'
+              }
+            )
+            return
+          }
+          //更新表单数据
+          this.form.start=this.startHeap.heap
+          this.form.end=this.endHeap.heap
             this.tasks.push
             (
                 {
@@ -397,7 +422,11 @@ export default {
           return 'success-row';
         }
         return '';
-      }
+      },
+        logOut(){
+          this.$store.dispatch("logOutCommit")
+          this.$router.push('/login')
+        }
     },
 
 }
@@ -421,7 +450,7 @@ export default {
 
 .roughGlass{
     position: relative;
-    width: 700px;
+    width: 300px;
     height: 200px;
     display: flex;
     border-radius: 15px;

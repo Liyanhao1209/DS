@@ -66,6 +66,7 @@ app.use((err,req,res,next)=>{
     }
     //无权限错误
     else if(err.name=='UnauthorizedError'){
+        console.log(err);
         return res.cc('UnAuthoriaed')
     }
     //未知错误

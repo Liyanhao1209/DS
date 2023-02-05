@@ -19,7 +19,7 @@ function binSortByStatus(tasks,status,range){
     //首先是犯下开始之罪的开始
     if(status===1){
         for(i=0;i<tasks.length;i++){
-            bins[tasks[i].start].insert(
+            bins[tasks[i].start[1]].insert(
                 tasks[i],0
             )
         }
@@ -27,7 +27,7 @@ function binSortByStatus(tasks,status,range){
     //然后是犯下结束之罪的结束
     else if(status===2){
         for(i=0;i<tasks.length;i++){
-            bins[tasks[i].end].insert(
+            bins[tasks[i].end[1]].insert(
                 tasks[i],0
             )
         }

@@ -36,7 +36,7 @@ function resSendResult(result,res){
  */
 exports.genWMResultVeryFirst = (req,res)=>{
     const WMJsonTasks = req.body
-    // console.log(WMJsonTasks);
+    console.log(WMJsonTasks);
     var tasks = JSON.parse(WMJsonTasks.data)
     // console.log(tasks);
     const WMResult = TaskScheduler.genWMResultVeryFirst(tasks)

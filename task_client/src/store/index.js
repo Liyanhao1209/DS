@@ -46,6 +46,9 @@ const store = createStore({
           }
         }
       )
+    },
+    logOutCommit({commit}){
+      commit('logout')
     }
   },
   plugins:[vuexLocal.plugin]
