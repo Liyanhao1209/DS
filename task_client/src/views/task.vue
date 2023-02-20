@@ -164,48 +164,48 @@ export default {
             resultVisible:false,
     tasks:
     [
-    // {
-    //     name:'A',
-    //     start:[null,2,13],
-    //     end:[null,6,16],
-    //     exeTime:3,
-    //     weight:1 
-    // },
-    // {
-    //     name:'B',
-    //     start:[null,13,19],
-    //     end:[null,17,24],
-    //     exeTime:2,
-    //     weight:4 
-    // },
-    // {
-    //     name:'C',
-    //     start:[null,5,14],
-    //     end:[null,8,16],
-    //     exeTime:4,
-    //     weight:5 
-    // },
-    // {
-    //     name:'D',
-    //     start:[null,9,18],
-    //     end:[null,15,20],
-    //     exeTime:3,
-    //     weight:5 
-    // },
-    // {
-    //     name:'E',
-    //     start:[null,10,17],
-    //     end:[null,12,19],
-    //     exeTime:1,
-    //     weight:4 
-    // },
-    // {
-    //     name:'F',
-    //     start:[null,4,20],
-    //     end:[null,8,24],
-    //     exeTime:1,
-    //     weight:1 
-    // }
+    {
+        name:'A',
+        start:[null,2,13],
+        end:[null,6,16],
+        exeTime:3,
+        weight:1 
+    },
+    {
+        name:'B',
+        start:[null,13,19],
+        end:[null,17,24],
+        exeTime:2,
+        weight:4 
+    },
+    {
+        name:'C',
+        start:[null,5,14],
+        end:[null,8,16],
+        exeTime:4,
+        weight:5 
+    },
+    {
+        name:'D',
+        start:[null,9,18],
+        end:[null,15,20],
+        exeTime:3,
+        weight:5 
+    },
+    {
+        name:'E',
+        start:[null,10,17],
+        end:[null,12,19],
+        exeTime:1,
+        weight:4 
+    },
+    {
+        name:'F',
+        start:[null,4,20],
+        end:[null,8,24],
+        exeTime:1,
+        weight:1 
+    }
 
     // {
     //     name:'A',
@@ -319,35 +319,63 @@ export default {
             
       },
       //用堆来维护输入
-      timeDivision(){
-        this.startHeap=new minHeap()
-        this.endHeap = new minHeap()
-        for(let i=0;i<this.starts.length;i++){
-          console.log(i);
-          //先把开始时间放入开始堆
-          if(i===0){
-            this.startHeap.push(this.starts[i].value)
-          }
-          else{
-            //多个时段不允许有交集
-            if(this.starts[i].value<this.endHeap.top()&&this.ends[i].value>this.startHeap.top()){
+      // timeDivision(){
+      //   this.startHeap=new minHeap()
+      //   this.endHeap = new minHeap()
+      //   for(let i=0;i<this.starts.length;i++){
+      //     console.log(i);
+      //     //先把开始时间放入开始堆
+      //     if(i===0){
+      //       this.startHeap.push(this.starts[i].value)
+      //     }
+      //     else{
+      //       //多个时段不允许有交集
+      //       if(this.starts[i].value<this.endHeap.top()&&this.ends[i].value>this.startHeap.top()){
+      //         return false
+      //       }
+      //       else{
+      //         this.startHeap.push(this.starts[i].value)
+      //       }
+      //     }
+      //     //再把结束时间放入结束堆
+      //     //结束时间要比开始时间晚
+      //     if(this.ends[i].value<=this.startHeap.top()){
+      //       return false
+      //     }
+      //     else{
+      //       this.endHeap.push(this.ends[i].value)
+      //     }
+      //   }
+      //   return true
+      // },
+      //上面函数有bug，弃用了。凭什么跟堆顶没交集就跟所有的没交集？
+        timeDivision(){
+          this.startHeap = new minHeap()
+          this.endHeap = new minHeap()
+          var flag = true
+          for(let i=0;i<this.starts.length;i++){
+            if(i===0){
+              this.startHeap.push(this.starts[i].value)
+            }
+            else{
+              //检查是否有交集
+              let currentHeapLength = this.startHeap.heap.length
+              for(let j = 1;j < currentHeapLength;j++){
+                if(this.starts[i].value<this.endHeap.heap[j]&&this.ends[i].value>this.startHeap.heap[j]){
+                  return false
+                }
+              }
+              this.startHeap.push(this.starts[i].value)
+            }
+            if(this.ends[i].value<=this.startHeap.top()){
               return false
             }
             else{
-              this.startHeap.push(this.starts[i].value)
+              this.endHeap.push(this.ends[i].value)
             }
           }
-          //再把结束时间放入结束堆
-          //结束时间要比开始时间晚
-          if(this.ends[i].value<=this.startHeap.top()){
-            return false
-          }
-          else{
-            this.endHeap.push(this.ends[i].value)
-          }
-        }
-        return true
-      },
+          return true
+        },
         addTask(){
           if(!this.timeDivision()){
             console.log(this.startHeap);
